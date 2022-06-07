@@ -14,14 +14,14 @@ This repository contains both the backend (smart-contracts) and the frontend of 
 
 <table>
 <tr><th>Backend</th> <th>Frontend</th></tr>
-<tr><td>
+<tr><td valign="top">
 
 | name       | version |
 | :--------- | :------ |
 | `rust`     | 1.61.0  |
 | `near-sdk` | 4.0.0   |
 
-</td><td>
+</td><td valign="top">
 
 | name               | version |
 | :----------------- | :------ |
