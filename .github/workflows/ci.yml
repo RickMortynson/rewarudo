@@ -8,6 +8,9 @@ on: [push]
 jobs:
   frontend-lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
 
     strategy:
       matrix:
@@ -17,13 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        working-directory: ./frontend
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: "yarn"
+          cache-dependency-path: "**/yarn.lock"
       - name: Install dependencies & lint
-        working-directory: ./frontend
         run: |
           yarn
           yarn run lint
