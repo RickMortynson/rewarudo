@@ -1,4 +1,4 @@
-<h2 align="center">Rewarudo</h2>
+<h1 align="center">Rewarudo</h1>
 <h3 align="center">not-a-freelance solution for placing & taking paid tasks</h3>
 <hr/>
 
@@ -25,7 +25,7 @@ This repository contains both the backend (smart-contracts) and the frontend of 
 
 | name               | version |
 | :----------------- | :------ |
-| `react`            | 1.61.0  |
+| `react`            | 18.0.0  |
 | `near-api-js`      | 0.44.2  |
 | `typescript`       | 4.6.3   |
 | `vite`             | 2.9.9   |
