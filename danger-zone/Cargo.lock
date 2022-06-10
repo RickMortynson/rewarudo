@@ -860,6 +860,7 @@ name = "rewarudo"
 version = "0.1.0"
 dependencies = [
  "near-sdk",
+ "serde_json",
 ]
 
 [[package]]
