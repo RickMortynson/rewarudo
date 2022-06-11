@@ -1,5 +1,5 @@
-use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
+use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::AccountId;
 
 use crate::def_enum::{TaskCategories, TaskStatus};
@@ -8,16 +8,16 @@ use crate::def_enum::{TaskCategories, TaskStatus};
 #[serde(crate = "near_sdk::serde")]
 pub struct Task {
     pub orderer: AccountId,
-    pub  performer: Option<AccountId>,
+    pub performer: Option<AccountId>,
 
-    pub  title: String,
-    pub  description: String,
+    pub title: String,
+    pub description: String,
 
-    pub  reward: u128, // yoctoNEAR value, 10⁻²⁴
-    pub  category: TaskCategories,
-    pub  deadline: u64, // unix timestamp, generated on frontend
-    pub  status: TaskStatus,
-    pub  result_comment: Option<String>, // value that orderer set after confirmation of the task completion
+    pub reward: u128, // yoctoNEAR value, 10⁻²⁴
+    pub category: TaskCategories,
+    pub deadline: u64, // unix timestamp, generated on frontend
+    pub status: TaskStatus,
+    pub result_comment: Option<String>, // value that orderer set after confirmation of the task completion
 }
 
 #[derive(BorshDeserialize, BorshSerialize, Deserialize, Serialize, Debug)]
