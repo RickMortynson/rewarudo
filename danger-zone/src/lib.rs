@@ -2,17 +2,18 @@
 mod def_enum;
 #[path = "definitions/def_struct.rs"]
 mod def_struct;
-mod helper_contract_impl;
+mod helper;
 
-#[cfg(test)]
+#[cfg(all(test, not(target_arch = "wasm32")))]
 mod test;
+
+use crate::def_enum::{TaskCategories, TaskStatus, UserTaskRelation};
+use crate::def_struct::{Task, UserInfo};
+use crate::helper::string_to_category_enum;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LookupMap, UnorderedMap};
 use near_sdk::{env, near_bindgen, AccountId, Balance, PanicOnDefault};
-
-use def_enum::{TaskCategories, TaskStatus, UserTaskRelation};
-use def_struct::{Task, UserInfo};
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
@@ -57,7 +58,7 @@ impl Contract {
         let reward: Balance = env::attached_deposit();
         let this_user = env::signer_account_id();
 
-        let category = serde_json::from_str::<TaskCategories>(category_arg.as_str()).unwrap();
+        let category = string_to_category_enum(category_arg);
 
         let task: Task = Task {
             orderer: this_user.clone(),
@@ -74,7 +75,7 @@ impl Contract {
         };
 
         // pseudo-unique id. I assume that one user at one point of time will create at most 1 task
-        let task_id = format!("{}{}", &this_user, env::block_timestamp_ms());
+        let task_id = format!("{}{}", &this_user, env::block_timestamp());
 
         self.tasks.insert(&task_id, &task);
 

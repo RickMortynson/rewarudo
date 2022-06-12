@@ -1,8 +1,20 @@
 use super::*;
 
+pub fn string_to_category_enum(category_arg: String) -> TaskCategories {
+    match category_arg.to_lowercase().as_str() {
+        "development" => TaskCategories::Development,
+        "design" => TaskCategories::Design,
+        "writing" => TaskCategories::Writing,
+        "researching" => TaskCategories::Researching,
+        "typing" => TaskCategories::Typing,
+        "mentoring" => TaskCategories::Mentoring,
+        _ => panic!("invalid task category"),
+    }
+}
+
 #[near_bindgen]
 impl Contract {
-    pub fn insert_task_to_user_info(
+    pub(super) fn insert_task_to_user_info(
         &mut self,
         user_key: &AccountId,
         task_relation: UserTaskRelation,
@@ -27,7 +39,7 @@ impl Contract {
         return ();
     }
 
-    pub fn init_empty_user_info(&mut self, user_key: &AccountId) {
+    pub(super) fn init_empty_user_info(&mut self, user_key: &AccountId) {
         self.user_profile.insert(
             &user_key,
             &UserInfo {
