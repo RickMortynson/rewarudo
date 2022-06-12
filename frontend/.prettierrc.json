@@ -7,5 +7,6 @@
   "trailingComma": "none",
   "arrowParens": "avoid",
   "bracketSpacing": true,
-  "proseWrap": "always"
+  "proseWrap": "always",
+  "useTabs": false
 }
