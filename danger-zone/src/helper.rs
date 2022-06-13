@@ -20,15 +20,15 @@ impl Contract {
         task_relation: UserTaskRelation,
         task_id: &String,
     ) {
-        match self.user_profile.get(&user_key) {
+        match self.users_profile.get(&user_key) {
             Some(mut user) => match task_relation {
                 UserTaskRelation::Orderer => {
                     user.order_tasks_id.push(task_id.to_string());
-                    self.user_profile.insert(&user_key, &user);
+                    self.users_profile.insert(&user_key, &user);
                 }
                 UserTaskRelation::Performer => {
                     user.perform_tasks_id.push(task_id.to_string());
-                    self.user_profile.insert(&user_key, &user);
+                    self.users_profile.insert(&user_key, &user);
                 }
             },
             None => {
@@ -40,7 +40,7 @@ impl Contract {
     }
 
     pub(super) fn init_empty_user_info(&mut self, user_key: &AccountId) {
-        self.user_profile.insert(
+        self.users_profile.insert(
             &user_key,
             &UserInfo {
                 order_tasks_id: Vec::<String>::new(),

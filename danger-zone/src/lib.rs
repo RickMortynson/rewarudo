@@ -5,6 +5,7 @@ mod def_struct;
 mod helper;
 
 #[cfg(all(test, not(target_arch = "wasm32")))]
+#[path = "tests/base.rs"]
 mod test;
 
 use crate::def_enum::{TaskCategories, TaskStatus, UserTaskRelation};
@@ -21,7 +22,7 @@ pub struct Contract {
     // Unordered map instead of Vector for the case when the user wants to get the value by id from data structure.
     // In this implementation, it won't check every single value in Vector - Task id is a key of the UnorderedMap
     tasks: UnorderedMap<String, Task>,
-    user_profile: LookupMap<AccountId, UserInfo>,
+    users_profile: LookupMap<AccountId, UserInfo>,
 }
 
 #[near_bindgen]
@@ -32,7 +33,7 @@ impl Contract {
 
         Contract {
             tasks: UnorderedMap::<String, Task>::new(b"t"),
-            user_profile: LookupMap::<AccountId, UserInfo>::new(b"u"),
+            users_profile: LookupMap::<AccountId, UserInfo>::new(b"u"),
         }
     }
 
@@ -42,7 +43,7 @@ impl Contract {
     }
 
     pub fn get_users_tasks_info(&self, user_id: AccountId) -> Option<UserInfo> {
-        return self.user_profile.get(&user_id);
+        return self.users_profile.get(&user_id);
     }
 
     #[payable]
@@ -79,36 +80,16 @@ impl Contract {
 
         self.tasks.insert(&task_id, &task);
 
-        // add to a vector self.user_profile[this_user].order_tasks_id new order's Id
+        // add to a vector self.users_profile[this_user].order_tasks_id new order's Id
         self.insert_task_to_user_info(&this_user, UserTaskRelation::Orderer, &task_id);
 
         return task_id;
     }
 
-    pub fn approve_task_completion(&mut self, task_id: &String, result_comment: String) {
-        // get old task, panic if there is no entry in tasks UnorderedMap with this key
-        let mut task = self.tasks.get(task_id).unwrap();
-        task.status = TaskStatus::Done;
-        task.result_comment = Some(result_comment);
-
-        // get old performer profile, panic if does not exist
-        let performer_id = task.performer.as_ref().unwrap();
-
-        // swap old task with updated one
-        self.tasks.insert(task_id, &task);
-
-        let mut performer_profile = self.user_profile.get(performer_id).unwrap();
-        performer_profile.is_busy = false;
-
-        // swap old performer profile with updated one
-
-        self.user_profile.insert(performer_id, &performer_profile);
-    }
-
     pub fn take_task(&mut self, task_id: &String) {
         let this_user = env::signer_account_id();
-
-        match self.user_profile.get(&this_user) {
+        // TODO: case if task is already taken?
+        match self.users_profile.get(&this_user) {
             Some(mut user) => {
                 if user.is_busy {
                     env::panic_str("the user already have an active task");
@@ -127,16 +108,41 @@ impl Contract {
                 // update old task & swap updated value with an old one
                 self.tasks.insert(&task_id, &task);
 
-                // add to a vector self.user_profile[this_user].perform_tasks_id new order's Id
+                // add to a vector self.users_profile[this_user].perform_tasks_id new order's Id
                 self.insert_task_to_user_info(&this_user, UserTaskRelation::Performer, task_id);
                 user.is_busy = true;
             }
             None => {
-                // initialize empty value for this user in self.user_profile
+                // initialize empty value for this user in self.users_profile
                 // then call this method again
                 self.init_empty_user_info(&this_user);
                 self.take_task(task_id);
             }
         }
+    }
+
+    pub fn approve_task_completion(&mut self, task_id: &String, result_comment: &String) {
+        // get old task, panic if there is no entry in tasks UnorderedMap with this key
+        let mut task = self.tasks.get(task_id).unwrap();
+
+        // only orderer can approve task completion
+        assert_eq!(env::signer_account_id(), task.orderer);
+
+        // update task fields
+        task.status = TaskStatus::Done;
+        task.result_comment = Some(result_comment.to_owned());
+
+        // get old performer profile, panic if does not exist
+        let performer_id = task.performer.as_ref().unwrap();
+
+        // swap old task with updated one
+        self.tasks.insert(task_id, &task);
+
+        // update performer profile
+        let mut performer_profile = self.users_profile.get(performer_id).unwrap();
+        performer_profile.is_busy = false;
+
+        // swap old performer profile with updated one
+        self.users_profile.insert(performer_id, &performer_profile);
     }
 }
