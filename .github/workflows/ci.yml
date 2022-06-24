@@ -20,6 +20,8 @@ jobs:
           rustc --version
       - name: Add wasm support
         run: rustup target add wasm32-unknown-unknown
+      - name: fetch all
+        run: cargo fetch
       - name: Test
         run: cargo test
 
