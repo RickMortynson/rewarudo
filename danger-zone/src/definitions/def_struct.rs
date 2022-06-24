@@ -1,6 +1,7 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
+use near_sdk::json_types::U128;
 use near_sdk::serde::{Deserialize, Serialize};
-use near_sdk::AccountId;
+use near_sdk::{AccountId};
 
 use crate::def_enum::{TaskCategories, TaskStatus};
 
@@ -13,7 +14,7 @@ pub struct Task {
     pub title: String,
     pub description: String,
 
-    pub reward: u128, // yoctoNEAR value, 10⁻²⁴
+    pub reward: U128,
     pub category: TaskCategories,
     pub deadline: u64, // unix timestamp, generated on frontend
     pub status: TaskStatus,

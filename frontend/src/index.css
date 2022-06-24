@@ -5,18 +5,40 @@
 @layer base {
   .light-scheme,
   .auto-scheme {
-    --color-bg-base: #f8fafc;
-    --color-bg-secondary: #f92a82;
+    --medium-pink: 236 72 153;
+    --medium-green: 34 197 94;
+    --medium-red: 239 68 68;
+    --medium-yellow: 234 179 8;
 
-    --color-bg-ternary: #f5efff;
+    --color-brand: var(--medium-pink);
 
-    --color-text-base: #000000;
-    --color-text-invert: #f5efff;
-    --color-text-accent: #f92a82;
+    --html-brand-color: theme('colors.pink.500');
+
+    --color-error: theme('colors.red.500');
+
+    --color-bg-base-rgb: 248, 250, 252;
+    --color-bg-base: theme('colors.slate.50');
+    --color-bg-secondary: theme('colors.pink.50');
+
+    --color-text-base: theme('colors.black');
+    --color-text-invert: theme('colors.fuchsia.50');
+    --color-text-accent: theme('colors.pink.500');
+
+    --color-border-base: theme('colors.slate.400');
+
+    --color-outline-base: theme('colors.fuchsia.400'/50%);
+
+    --default-shadow-color: rgba(75, 75, 75, 0.5);
   }
 
+  .dark-scheme {
+    --color-bg-base: theme('colors.gray.500');
+    --default-shadow-color: rgba(75, 75, 75, 0.8);
+  }
   @media (prefers-color-scheme: dark) {
     .auto-scheme {
+      --color-bg-base: theme('colors.gray.500');
+      --default-shadow-color: rgba(75, 75, 75, 0.8);
     }
   }
 }

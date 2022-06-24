@@ -1,7 +1,7 @@
 use super::*;
 
 use near_sdk::test_utils::VMContextBuilder;
-use near_sdk::{testing_env, VMContext};
+use near_sdk::{testing_env, Balance, VMContext};
 
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -70,7 +70,7 @@ fn get_non_empty_contract(setup: ContractSetup) -> Contract {
             performer: setup.optional_performer,
             title: "awesome title".to_string(),
             description: "awesome description".to_string(),
-            reward: 10,
+            reward: U128::from(10 * 10u128.pow(24)), // 10 near
             category: TaskCategories::Development,
             deadline: 14124124,
             status: TaskStatus::Created,

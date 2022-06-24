@@ -4,7 +4,7 @@ use crate::test::*;
 fn normal_case() {
     testing_env!(get_context(ContextSetup {
         is_view: false,
-        balance: None,
+        balance: Some(100 * 10u128.pow(24)),
         deposit: None
     }));
 
@@ -25,7 +25,9 @@ fn normal_case() {
     // but current test env user is an orderer
     let mut performer_profile = contract.users_profile.get(&performer).unwrap();
     performer_profile.perform_tasks_id.push(task_id.clone());
-    contract.users_profile.insert(&performer, &performer_profile);
+    contract
+        .users_profile
+        .insert(&performer, &performer_profile);
 
     contract.approve_task_completion(&task_id, &"good job fella".to_owned());
 

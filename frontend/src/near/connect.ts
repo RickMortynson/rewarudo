@@ -25,8 +25,3 @@ export const getWalletBalance = async (): Promise<string> => {
 export const formatBalanceToHuman = (balance: string): string => {
   return Number(balance).toFixed(3)
 }
-
-export const logout = () => {
-  wallet.signOut()
-  location.reload()
-}

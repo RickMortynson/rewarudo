@@ -1,0 +1,33 @@
+.custom__hero--background {
+  background-image: url('@assets/hero-image.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.custom__title--fontsize--textshadow {
+  font-size: clamp(2rem, 2rem + 5vw, 7rem);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.custom__button--fontsize--shadow {
+  font-size: clamp(0.9rem, 0.6rem + 2vw, 1.3rem);
+  font-weight: 600;
+  position: relative;
+  isolation: isolate;
+
+  &:hover::after {
+    opacity: 0.6;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    box-shadow: -2px 2px 8px 1px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+
+    transition: opacity 0.25s ease-out;
+  }
+}

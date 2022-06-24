@@ -28,6 +28,10 @@ export default defineConfig({
       {
         find: '@store',
         replacement: path.resolve(rootDir, 'src/store')
+      },
+      {
+        find: '@assets',
+        replacement: path.resolve(rootDir, 'assets')
       }
     ]
   }

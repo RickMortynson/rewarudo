@@ -14,7 +14,8 @@ use crate::helper::string_to_category_enum;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LookupMap, UnorderedMap};
-use near_sdk::{env, near_bindgen, AccountId, Balance, PanicOnDefault};
+use near_sdk::json_types::U128;
+use near_sdk::{env, near_bindgen, AccountId, PanicOnDefault, Promise};
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
@@ -37,6 +38,11 @@ impl Contract {
         }
     }
 
+    pub fn reset(&mut self) {
+        self.tasks = UnorderedMap::<String, Task>::new(b"t");
+        self.users_profile = LookupMap::<AccountId, UserInfo>::new(b"u");
+    }
+
     // TODO: add limitations
     pub fn get_tasks(&self) -> Vec<(String, Task)> {
         return self.tasks.to_vec();
@@ -56,7 +62,7 @@ impl Contract {
     ) -> String {
         // TODO: store funds somewhere
         // get reward, orderer from metadata, category as enum from argument
-        let reward: Balance = env::attached_deposit();
+        let reward: U128 = U128::from(env::attached_deposit());
         let this_user = env::signer_account_id();
 
         let category = string_to_category_enum(category_arg);
@@ -90,13 +96,14 @@ impl Contract {
         let this_user = env::signer_account_id();
         // TODO: case if task is already taken?
         match self.users_profile.get(&this_user) {
-            Some(mut user) => {
+            Some(user) => {
                 if user.is_busy {
                     env::panic_str("the user already have an active task");
                 }
 
                 // take task, panic if it does not exists
                 // also panic if the field 'orderer' of the task equals to id of the method caller
+                env::log_str(&task_id);
                 let mut task = self.tasks.get(&task_id).unwrap();
                 if task.orderer == this_user {
                     env::panic_str("the orderer can not perform their own orders");
@@ -110,7 +117,6 @@ impl Contract {
 
                 // add to a vector self.users_profile[this_user].perform_tasks_id new order's Id
                 self.insert_task_to_user_info(&this_user, UserTaskRelation::Performer, task_id);
-                user.is_busy = true;
             }
             None => {
                 // initialize empty value for this user in self.users_profile
@@ -132,13 +138,17 @@ impl Contract {
         task.status = TaskStatus::Done;
         task.result_comment = Some(result_comment.to_owned());
 
-        // get old performer profile, panic if does not exist
+        // get old performer profile id, panic if it does not exist
         let performer_id = task.performer.as_ref().unwrap();
 
         // swap old task with updated one
         self.tasks.insert(task_id, &task);
 
-        // update performer profile
+        if task.reward > U128::from(0) {
+            Promise::new(performer_id.to_owned()).transfer(task.reward.0);
+        }
+
+        // get performer profile and update it
         let mut performer_profile = self.users_profile.get(performer_id).unwrap();
         performer_profile.is_busy = false;
 

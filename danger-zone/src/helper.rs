@@ -28,6 +28,7 @@ impl Contract {
                 }
                 UserTaskRelation::Performer => {
                     user.perform_tasks_id.push(task_id.to_string());
+                    user.is_busy = true;
                     self.users_profile.insert(&user_key, &user);
                 }
             },

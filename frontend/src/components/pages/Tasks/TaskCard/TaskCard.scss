@@ -1,0 +1,99 @@
+@use '@/_mixins.scss' as m;
+
+@mixin transition($property...) {
+  transition-property: $property;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+span {
+  font-weight: 600;
+  color: black;
+}
+
+h2 {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.card-paddings {
+  padding: 1.5rem 2rem calc(1.8rem + 2vh);
+}
+
+.card-grid-component {
+  display: grid;
+  column-gap: 1rem;
+  grid-template-columns: 1fr 4fr;
+
+  & > h2 {
+    grid-column: 1;
+  }
+}
+
+.card-grid-component_modal-size {
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1rem;
+
+  & > span {
+    grid-column: span 2;
+  }
+}
+
+.card-accent {
+  @include m.glance_effect(2px);
+  @include transition(box-shadow color);
+
+  position: absolute;
+  inset: auto 0 0 0;
+
+  padding: 1rem auto;
+  height: calc(2rem + 1vh);
+
+  border-top-width: 1px;
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
+
+  // box-shadow: -5px 0 6px rgb(0 0 0 / 0.1);
+
+  & > p {
+    @include transition(transform);
+  }
+}
+
+@media (min-width: 768px) {
+  .card-grid-component {
+    column-gap: 0;
+  }
+
+  .card-grid-component_modal-size {
+    column-gap: 1rem;
+  }
+
+  .card-paddings {
+    padding: 1.5rem 2rem;
+  }
+
+  .card-accent {
+    // reset values
+    position: absolute;
+    border-bottom-left-radius: 0;
+    border-top: 0;
+
+    // rewrite & new
+    inset: 0 0 0 auto;
+    width: 33.33333%;
+    height: 100%;
+
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+    border-left-width: 1px;
+
+    box-shadow: -5px 0 6px rgb(0 0 0 / 0.1);
+
+    &:hover {
+      box-shadow: -6px 0 6px 1px rgb(0 0 0 / 0.1);
+      & > p {
+        transform: translateY(0.01rem);
+      }
+    }
+  }
+}

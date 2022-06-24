@@ -1,14 +1,46 @@
 import { useMemo, useState, useEffect } from 'react'
 import { IconType } from 'react-icons'
 import { themesList, scheme } from './themes'
+import './NavBar.scss'
 
 const ThemesSelector = () => {
   const [colorScheme, setColorScheme] = useState('auto-scheme')
   const [expandThemeSelector, setExpandThemeSelector] = useState(false)
 
+  const getLocalStorageTheme = () => {
+    return localStorage.getItem('theme')
+  }
+
+  const setLocalStorageTheme = (theme: string) => {
+    localStorage.setItem('theme', theme)
+  }
+
+  // useEffect tries to load theme from localStorage
   useEffect(() => {
+    const theme = getLocalStorageTheme()
+    console.log(theme)
+
+    if (!theme) {
+      changeSystemColorScheme('auto-scheme')
+      return
+    }
+
+    changeSystemColorScheme(theme)
+  }, [])
+
+  // useEffect changes color scheme based on `colorScheme` value
+  const changeSystemColorScheme = (colorScheme: string) => {
+    setColorScheme(colorScheme)
+    setLocalStorageTheme(colorScheme)
+
     const rootElem = document.getElementById('root') as HTMLDivElement
-    rootElem.classList.add(colorScheme)
+
+    // unset previous color scheme
+    ;['auto-scheme', 'light-scheme', 'dark-scheme'].forEach(scheme => {
+      rootElem.classList.toggle(scheme, false)
+    })
+
+    rootElem.classList.toggle(colorScheme, true)
 
     if (
       colorScheme === 'dark-scheme' ||
@@ -17,16 +49,8 @@ const ThemesSelector = () => {
       // TODO: add dark scheme setup
     } else {
       document.body.style.background =
-        getComputedStyle(rootElem).getPropertyValue('--color-bg-secondary')
+        getComputedStyle(rootElem).getPropertyValue('--html-brand-color')
     }
-  }, [colorScheme])
-
-  const changeColorScheme = (todoNewTitle: string) => {
-    setColorScheme(oldScheme => {
-      const rootElem = document.getElementById('root') as HTMLDivElement
-      rootElem.classList.remove(oldScheme)
-      return todoNewTitle
-    })
   }
 
   const SelectedThemeIcon = useMemo((): IconType => {
@@ -43,29 +67,29 @@ const ThemesSelector = () => {
   return (
     <>
       <div
-        className='relative flex cursor-pointer flex-col'
         onClick={() => {
           setExpandThemeSelector(!expandThemeSelector)
         }}
+        className='sidebar-button relative flex cursor-pointer'
       >
-        <SelectedThemeIcon className='text-2xl text-skin-base' />
+        <SelectedThemeIcon className='h-full text-2xl text-skin-base' />
+        <span className='sidebar-button-alias'>Change color scheme</span>
 
         {expandThemeSelector && (
-          <div
-            onMouseLeave={() => setExpandThemeSelector(false)}
-            className='absolute top-8 -left-9 rounded-md border-slate-300 bg-skin-ternary shadow-lg ring-2 ring-slate-200'
-          >
+          <div className='theme-dropdown-menu'>
+            <div className='theme-switch-bubble'></div>
             {Array.from(themesList).map(([className, value]) => {
               return (
                 <div
-                  onClick={() => changeColorScheme(className)}
-                  className='flex items-center border-b border-slate-400 px-2 py-1 transition-shadow last-of-type:border-b-0 hover:shadow-md'
+                  className='theme-dropdown-item'
+                  onClick={e => {
+                    e.stopPropagation() //to not trigger setExpandThemeSelector
+                    changeSystemColorScheme(className)
+                  }}
                   key={className}
                 >
-                  <div>
-                    <value.component />
-                  </div>
-                  <span className='whitespace-nowrap pl-2 text-sm'>{value.title}</span>
+                  <value.component />
+                  <span className='pl-2 '>{value.title}</span>
                 </div>
               )
             })}

@@ -10,21 +10,21 @@ const themesList = new Map<string, scheme>([
   [
     'light-scheme',
     {
-      title: 'light theme',
+      title: 'light',
       component: MdOutlineLightMode
     }
   ],
   [
     'dark-scheme',
     {
-      title: 'dark theme',
+      title: 'dark',
       component: MdOutlineDarkMode
     }
   ],
   [
     'auto-scheme',
     {
-      title: 'system theme',
+      title: 'system',
       component: MdOutlineAutoAwesome
     }
   ]

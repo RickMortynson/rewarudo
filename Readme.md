@@ -29,9 +29,12 @@ This repository contains both the backend (smart-contracts) and the frontend of 
 | `near-api-js`      | 0.44.2  |
 | `typescript`       | 4.6.3   |
 | `vite`             | 2.9.9   |
-| `tailwindcss`      | 3.0.24  |
+| `tailwindcss`      | 3.1.2   |
 | `react-redux`      | 8.0.2   |
 | `react-router-dom` | 6       |
+| `redux-persist`    | 6.0.0   |
+| `formik`           | 2.2.9   |
+| `sass`             | 1.52.3  |
 
 </td></tr>
 

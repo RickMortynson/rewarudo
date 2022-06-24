@@ -1,12 +1,16 @@
+/** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      colors: {
+        brand: 'rgb(var(--color-brand) / <alpha-value>)'
+      },
       backgroundColor: {
         skin: {
           base: 'var(--color-bg-base)',
-          secondary: 'var(--color-bg-secondary)',
-          ternary: 'var(--color-bg-ternary)'
+          secondary: 'var(--color-bg-secondary)'
         }
       },
       textColor: {
@@ -20,6 +24,11 @@ module.exports = {
         skin: {
           base: 'var(--color-border-base)',
           invert: 'var(--color-border-invert)'
+        }
+      },
+      outlineColor: {
+        skin: {
+          base: 'var(--color-outline-base)'
         }
       }
     }

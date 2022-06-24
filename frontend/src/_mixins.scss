@@ -1,0 +1,15 @@
+@mixin glance-effect($blur_size: 4px) {
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    border-radius: inherit;
+    position: absolute;
+    inset: 0;
+
+    z-index: -1;
+
+    background-color: rgba(var(--color-bg-base-rgb), 0.4);
+    backdrop-filter: blur($blur_size);
+  }
+}
