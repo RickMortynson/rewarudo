@@ -7,6 +7,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 mod approve_task_completion;
 mod create_task;
+mod filter_tasks;
 mod get_tasks;
 mod get_users_tasks_info;
 mod take_task;
@@ -51,6 +52,7 @@ fn get_empty_contract() -> Contract {
     }
 }
 
+/// do not forget to make `get_context` mutable () ContextSetup{is_view: false}
 fn get_non_empty_contract(setup: ContractSetup) -> Contract {
     let mut contract = get_empty_contract();
 
@@ -59,8 +61,6 @@ fn get_non_empty_contract(setup: ContractSetup) -> Contract {
         .unwrap_or(AccountId::try_from(ORDERER.to_string()).unwrap());
 
     let inserted_task_id = format!("{}{}", orderer.as_str(), SAMPLE_TASK_PREFIX);
-
-    println!("inserting to contract");
 
     contract.tasks.insert(
         &inserted_task_id.to_owned(),

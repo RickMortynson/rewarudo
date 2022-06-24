@@ -1,15 +1,7 @@
 use super::*;
 
-pub fn string_to_category_enum(category_arg: String) -> TaskCategories {
-    match category_arg.to_lowercase().as_str() {
-        "development" => TaskCategories::Development,
-        "design" => TaskCategories::Design,
-        "writing" => TaskCategories::Writing,
-        "researching" => TaskCategories::Researching,
-        "typing" => TaskCategories::Typing,
-        "mentoring" => TaskCategories::Mentoring,
-        _ => panic!("invalid task category"),
-    }
+pub fn enum_eq<T>(a: &T, b: &T) -> bool {
+    std::mem::discriminant(a) == std::mem::discriminant(b)
 }
 
 #[near_bindgen]

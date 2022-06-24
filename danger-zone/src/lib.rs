@@ -10,7 +10,7 @@ mod test;
 
 use crate::def_enum::{TaskCategories, TaskStatus, UserTaskRelation};
 use crate::def_struct::{Task, UserInfo};
-use crate::helper::string_to_category_enum;
+use crate::helper::enum_eq;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LookupMap, UnorderedMap};
@@ -57,15 +57,13 @@ impl Contract {
         &mut self,
         title: String,
         description: String,
-        category_arg: String,
+        category_arg: &String,
         deadline: u64,
     ) -> String {
         // TODO: store funds somewhere
         // get reward, orderer from metadata, category as enum from argument
         let reward: U128 = U128::from(env::attached_deposit());
         let this_user = env::signer_account_id();
-
-        let category = string_to_category_enum(category_arg);
 
         let task: Task = Task {
             orderer: this_user.clone(),
@@ -75,7 +73,7 @@ impl Contract {
             description,
 
             reward,
-            category,
+            category: TaskCategories::from_string(category_arg),
             deadline,
             status: TaskStatus::Created,
             result_comment: None,
@@ -154,5 +152,43 @@ impl Contract {
 
         // swap old performer profile with updated one
         self.users_profile.insert(performer_id, &performer_profile);
+    }
+
+    // TODO: add pagination
+    pub fn filter_tasks(
+        &self,
+        task_id: &String,
+        status: &String,
+        category: &String,
+        orderer: &String,
+        performer: &String,
+        max_deadline: u64,
+        reward_min: U128,
+        reward_max: U128,
+    ) -> Vec<(String, Task)> {
+        self.tasks
+            .iter()
+            .filter(|(filter_task_id, filter_task)| {
+                return (task_id == "" || task_id == filter_task_id)
+                    && (orderer == "" || orderer == filter_task.orderer.as_str())
+                    && (category == ""
+                        || enum_eq(
+                            &filter_task.category,
+                            &TaskCategories::from_string(category),
+                        ))
+                    && (status == ""
+                        || enum_eq(&filter_task.status, &TaskStatus::from_string(status)))
+                    && (performer == ""
+                        || performer
+                            == filter_task
+                                .performer
+                                .as_ref()
+                                .unwrap_or(&"".parse::<AccountId>().unwrap())
+                                .as_str())
+                    && (max_deadline == 0 || max_deadline > filter_task.deadline)
+                    && (reward_min <= filter_task.reward)
+                    && (reward_max >= filter_task.reward);
+            })
+            .collect()
     }
 }

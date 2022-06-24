@@ -16,7 +16,7 @@ fn normal_case() {
     contract.create_task(
         "awesome_task".to_owned(),
         "awesome_description".to_owned(),
-        "Researching".to_owned(),
+        &String::from("Researching"),
         93234273,
     );
 
