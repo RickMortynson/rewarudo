@@ -19,7 +19,8 @@
       "@components/*": ["./src/components/*"],
       "@near/*": ["./src/near/*"],
       "@store/*": ["./src/store/*"],
-      "@images/*": ["./src/images/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@utils/*": ["./src/utils/*"],
       "@/*": ["./src/*"]
     }
   },

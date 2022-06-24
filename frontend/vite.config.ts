@@ -32,6 +32,10 @@ export default defineConfig({
       {
         find: '@assets',
         replacement: path.resolve(rootDir, 'assets')
+      },
+      {
+        find: '@utils',
+        replacement: path.resolve(rootDir, 'utils')
       }
     ]
   }
