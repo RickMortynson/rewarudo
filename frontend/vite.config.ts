@@ -35,7 +35,7 @@ export default defineConfig({
       },
       {
         find: '@utils',
-        replacement: path.resolve(rootDir, 'utils')
+        replacement: path.resolve(rootDir, 'src/utils')
       }
     ]
   }

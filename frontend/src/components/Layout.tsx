@@ -1,10 +1,13 @@
-import NavBar from '@components/NavBar'
-import { useUpdateUserValue } from '@components/hooks/useUpdateUserValue'
 import { Route, Routes } from 'react-router-dom'
-import Root from './pages/Root'
-import Tasks from './pages/Tasks'
+
+import NavBar from '@components/NavBar'
+import Root from '@components/pages/Root'
+import Tasks from '@components/pages/Tasks'
+import Profile from '@components/pages/Profile'
+import { useUpdateUserValue } from '@components/hooks/useUpdateUserValue'
 
 const Layout = () => {
+  // update user info in redux on page refresh
   useUpdateUserValue()
 
   return (
@@ -14,6 +17,7 @@ const Layout = () => {
       <Routes>
         <Route path='/' element={<Root />} />
         <Route path='/tasks' element={<Tasks />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </div>
   )

@@ -4,6 +4,7 @@ import { MdArrowDropDown } from 'react-icons/md'
 import * as nearConnection from '@near/connect'
 
 import './NavBar.scss'
+import { Link } from 'react-router-dom'
 
 const UserDropDown = () => {
   const user = useAppSelector(store => store.UserSlice)
@@ -24,7 +25,9 @@ const UserDropDown = () => {
       {user.loggedIn ? (
         <>
           <div className='user-dropdown-area' onClick={() => toggleDropdownShown()}>
-            <span className='sidebar-button'>{nearConnection.wallet.getAccountId()}</span>
+            <Link to='/profile' className='sidebar-button disable-link-when-expanded'>
+              <span className=''>{nearConnection.wallet.getAccountId()}</span>
+            </Link>
             <MdArrowDropDown className='text-3xl' />
           </div>
 
@@ -33,10 +36,17 @@ const UserDropDown = () => {
             onMouseLeave={() => toggleDropdownShown()}
             className='user-dropdown-menu'
           >
-            <div className='user-dropdown-item'>
-              <span className='pr-2'>Balance:</span>
-              {nearConnection.formatBalanceToHuman(user.balance)}
-            </div>
+            <Link to='/profile' className='user-dropdown-item hide-when-collapsed'>
+              <span>Profile</span>
+            </Link>
+
+            <span className='user-dropdown-item'>
+              Balance:
+              <span className='pl-1 font-normal'>
+                {nearConnection.formatBalanceToHuman(user.balance)}
+              </span>
+            </span>
+
             <button className='user-dropdown-item' onClick={handleLogoutClick}>
               Logout
             </button>

@@ -3,6 +3,7 @@ import { getTasks } from '@near/contract'
 import { GetTasksReturn } from '@near/contract/utils'
 import CreateTask from './CreateTask'
 import TaskCard from './TaskCard'
+import { setPaddingTopUsingNavHeight } from '@utils/mixins'
 
 const Tasks = () => {
   const [tasks, setTasks] = useState<GetTasksReturn>()
@@ -10,12 +11,7 @@ const Tasks = () => {
   useEffect(() => {
     // set padding based on navbar height
 
-    const navBarHeight = (document.getElementById('navbar') as HTMLDivElement).clientHeight
-
-    ;(document.getElementById('tasks-page') as HTMLDivElement).style.setProperty(
-      'padding-top',
-      `calc(5rem + ${navBarHeight}px)`
-    )
+    setPaddingTopUsingNavHeight('tasks-page', '5rem')
 
     // fetch all tasks once every 10 seconds
     getTasks().then(response => setTasks(response))
@@ -40,13 +36,13 @@ const Tasks = () => {
   return (
     <div
       id='tasks-page'
-      className='grid md:grid-cols-3 gap-4 bg-skin-secondary py-20 px-4 md:px-20 '
+      className='grid gap-4 bg-skin-secondary py-20 px-4 md:grid-cols-3 md:px-20 '
     >
       <CreateTask className='md:col-span-2' />
       <div className='flex shrink-0 flex-grow-[2] basis-1/3  items-center justify-center bg-white'>
         filter here
       </div>
-      <div className='md:col-span-3 rounded-md border border-slate-300 bg-white p-4 md:px-8 md:py-6 shadow-sm drop-shadow-sm'>
+      <div className='rounded-md border border-slate-300 bg-white p-4 shadow-sm drop-shadow-sm md:col-span-3 md:px-8 md:py-6'>
         {TasksToShow}
       </div>
     </div>

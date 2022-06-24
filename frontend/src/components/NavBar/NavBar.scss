@@ -40,6 +40,10 @@ $menu-item-border-color: theme('colors.slate.300');
 }
 
 @media (max-width: 639px) {
+  .hide-when-collapsed {
+    display: none !important;
+  }
+
   .sidebar-button,
   .span-user-id,
   .user-dropdown-item {
@@ -130,7 +134,7 @@ $menu-item-border-color: theme('colors.slate.300');
     & > svg {
       display: none;
     }
-    pointer-events: none; // disable onClick event
+    // pointer-events: none; // disable onClick event
 
     & > span::before {
       content: 'Profile: ';
@@ -160,6 +164,10 @@ $menu-item-border-color: theme('colors.slate.300');
 }
 
 @media (min-width: 640px) {
+  .disable-link-when-expanded {
+    pointer-events: none;
+  }
+
   .collapsible {
     position: relative;
     width: auto;
@@ -195,7 +203,11 @@ $menu-item-border-color: theme('colors.slate.300');
     border-bottom: solid 1px $menu-item-border-color;
     padding: 6px 12px;
 
+    width: 100%;
+    text-align: start;
     line-height: 20px;
+
+    grid-column: 1/1;
 
     transition-property: box-shadow;
     transition-duration: 300ms;
@@ -222,7 +234,6 @@ $menu-item-border-color: theme('colors.slate.300');
   .user-dropdown-menu {
     position: absolute;
     top: 32px;
-
     text-transform: capitalize;
 
     opacity: 0.9;
@@ -249,6 +260,6 @@ $menu-item-border-color: theme('colors.slate.300');
   }
 
   .show-user-dropdown {
-    display: block;
+    display: grid;
   }
 }
