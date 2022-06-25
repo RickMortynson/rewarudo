@@ -1,0 +1,26 @@
+.field-grid-child {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  & > :where(input, select) {
+    grid-column: span 2;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:not(select) {
+      padding-left: 4px;
+    }
+  }
+
+  & > select {
+    outline: none;
+  }
+}
+
+.error-message {
+  line-height: 0.75rem;
+  color: var(--color-error);
+  grid-column: span 3;
+}

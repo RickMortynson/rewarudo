@@ -3,7 +3,7 @@ import { Formik, Field, Form } from 'formik'
 import { createTask } from '@near/contract'
 import { createTaskProps, TaskCategories } from '@near/contract/utils'
 import { useAppSelector } from '@store/hooks'
-import './CreateTask.scss'
+import FormFieldWrap from '@components/helpers/FormFieldWrap'
 
 const CreateTask = ({ className: user_className }: { className: string }) => {
   const { balance: user_balance } = useAppSelector(state => state.UserSlice)
@@ -42,12 +42,9 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
   }
 
   return (
-    <div
-      className={`${user_className} w-full rounded-md border border-slate-300 bg-white p-4 shadow-sm drop-shadow-sm md:px-8 md:py-6`}
-    >
-      <h3 className='col-span-2 mb-2 text-center text-2xl font-semibold md:mb-4 md:text-start'>
-        Create task
-      </h3>
+    <div className={`${user_className} shadow-sm drop-shadow-sm`}>
+      <h3 className='col-span-2'>Create task</h3>
+
       <Formik
         initialValues={
           {
@@ -62,60 +59,44 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
       >
         {({ errors, touched }) => (
           <Form className='grid gap-1'>
-            <div className='field-grid'>
-              <label>Title</label>
+            <FormFieldWrap label='Title' error={errors.title} touched={touched.title}>
               <Field
                 className='field-action-area'
                 name='title'
                 placeholder='Title'
                 validate={validateTitle}
               />
-              {errors.title && touched.title && (
-                <span className='error-message'>{errors.title}</span>
-              )}
-            </div>
+            </FormFieldWrap>
 
-            <div className='field-grid'>
-              <label>Description</label>
+            <FormFieldWrap
+              label='Description'
+              error={errors.description}
+              touched={touched.description}
+            >
               <Field
                 className='field-action-area'
                 name='description'
                 placeholder='Description'
                 validate={validateDesc}
               />
-              {errors.description && touched.description && (
-                <span className='error-message'>{errors.description}</span>
-              )}
-            </div>
+            </FormFieldWrap>
 
-            <div className='field-grid'>
-              <label>Deadline</label>
+            <FormFieldWrap label='Deadline'>
               <Field
                 className='field-action-area'
                 name='deadline'
                 placeholder='deadline'
                 type='date'
               />
-            </div>
+            </FormFieldWrap>
 
-            <div className='field-grid'>
-              <label>Category</label>
-              <Field className='field-action-area' name='category_arg' as='select'>
-                {Object.keys(TaskCategories)
-                  // transform enum from TaskCategories to string `category`
-                  .filter(key => isNaN(Number(key)))
-                  .map((category, index) => {
-                    return (
-                      <option key={index} value={category}>
-                        {category}
-                      </option>
-                    )
-                  })}
-              </Field>
-            </div>
+            <FormFieldWrap
+              label='Category'
+              select_enum={TaskCategories}
+              select_name='category_arg'
+            />
 
-            <div className='field-grid'>
-              <label>Deposit</label>
+            <FormFieldWrap label='Deposit' error={errors.deposit} touched={touched.deposit}>
               <Field
                 className='field-action-area'
                 name='deposit'
@@ -124,10 +105,7 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
                 validate={validateReward}
                 min={0}
               />
-              {errors.deposit && touched.deposit && (
-                <span className='error-message'>{errors.deposit}</span>
-              )}
-            </div>
+            </FormFieldWrap>
 
             <button
               className='mt-3 w-full rounded-md border border-brand/40 bg-brand/30 py-[6px] font-semibold shadow-md transition-colors hover:bg-brand/40'
