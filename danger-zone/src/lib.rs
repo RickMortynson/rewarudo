@@ -9,7 +9,7 @@ mod helper;
 mod test;
 
 use crate::def_enum::{TaskCategories, TaskStatus, UserTaskRelation};
-use crate::def_struct::{Task, UserInfo};
+use crate::def_struct::{FilterValues, Pagination, Task, UserInfo};
 use crate::helper::enum_eq;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
@@ -155,40 +155,35 @@ impl Contract {
     }
 
     // TODO: add pagination
-    pub fn filter_tasks(
-        &self,
-        task_id: &String,
-        status: &String,
-        category: &String,
-        orderer: &String,
-        performer: &String,
-        max_deadline: u64,
-        reward_min: U128,
-        reward_max: U128,
-    ) -> Vec<(String, Task)> {
-        self.tasks
+    pub fn filter_tasks(&self, filter: FilterValues, pagination: Pagination) -> Vec<(String, Task)> {
+        let filtered_tasks: Vec<(String, Task)> = self
+            .tasks
             .iter()
-            .filter(|(filter_task_id, filter_task)| {
-                return (task_id == "" || task_id == filter_task_id)
-                    && (orderer == "" || orderer == filter_task.orderer.as_str())
-                    && (category == ""
+            .filter(|(task_id, task)| {
+                return (filter.task_id == "" || &filter.task_id == task_id)
+                    && (filter.orderer == "" || filter.orderer == task.orderer.as_str())
+                    && (filter.category == ""
                         || enum_eq(
-                            &filter_task.category,
-                            &TaskCategories::from_string(category),
+                            &task.category,
+                            &TaskCategories::from_string(&filter.category),
                         ))
-                    && (status == ""
-                        || enum_eq(&filter_task.status, &TaskStatus::from_string(status)))
-                    && (performer == ""
-                        || performer
-                            == filter_task
+                    && (filter.status == ""
+                        || enum_eq(&task.status, &TaskStatus::from_string(&filter.status)))
+                    && (filter.performer == ""
+                        || filter.performer
+                            == task
                                 .performer
                                 .as_ref()
                                 .unwrap_or(&"".parse::<AccountId>().unwrap())
                                 .as_str())
-                    && (max_deadline == 0 || max_deadline > filter_task.deadline)
-                    && (reward_min <= filter_task.reward)
-                    && (reward_max >= filter_task.reward);
+                    && (filter.max_deadline == 0 || filter.max_deadline > task.deadline)
+                    && (filter.reward_min <= task.reward)
+                    && (filter.reward_max >= task.reward);
             })
+            .collect();
+
+        (pagination.from_index..std::cmp::min(pagination.limit, filtered_tasks.len()))
+            .map(|index| filtered_tasks.get(index).unwrap().clone())
             .collect()
     }
 }
