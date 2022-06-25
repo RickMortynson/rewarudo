@@ -48,3 +48,10 @@ pub struct Pagination {
     pub from_index: usize,
     pub limit: usize,
 }
+
+#[derive(BorshDeserialize, BorshSerialize, Deserialize, Serialize, Debug)]
+#[serde(crate = "near_sdk::serde")]
+pub struct ResponseWithPagination {
+    pub filtered_tasks: Vec<(String, Task)>,
+    pub total_size: usize,
+}

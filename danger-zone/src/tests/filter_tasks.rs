@@ -41,7 +41,7 @@ fn normal_case() {
         },
     );
     println!("got tasks: {:?}", tasks);
-    assert!(tasks.len() == 1)
+    assert!(tasks.filtered_tasks.len() == 1)
 }
 
 #[test]
@@ -64,7 +64,7 @@ fn normal_case_page_limit_0() {
         },
     );
     println!("got tasks: {:?}", tasks);
-    assert!(tasks.len() == 0)
+    assert!(tasks.filtered_tasks.len() == 0)
 }
 
 #[test]
@@ -87,8 +87,6 @@ fn reward_min_invalid() {
         },
     );
     println!("got tasks: {:?}", tasks);
-
-    // assert!(tasks.len() == 1)
 }
 
 #[test]
@@ -111,7 +109,7 @@ fn status_invalid() {
         },
     );
     println!("got tasks: {:?}", tasks);
-    assert!(tasks.len() == 0)
+    assert!(tasks.filtered_tasks.len() == 0)
 }
 
 #[test]
@@ -179,5 +177,5 @@ fn orderer_valid_and_task_id_invalid() {
         },
     );
     println!("got tasks: {:?}", tasks);
-    assert!(tasks.len() == 0)
+    assert!(tasks.filtered_tasks.len() == 0)
 }

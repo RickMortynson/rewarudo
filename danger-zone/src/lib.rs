@@ -9,7 +9,7 @@ mod helper;
 mod test;
 
 use crate::def_enum::{TaskCategories, TaskStatus, UserTaskRelation};
-use crate::def_struct::{FilterValues, Pagination, Task, UserInfo};
+use crate::def_struct::{FilterValues, Pagination, ResponseWithPagination, Task, UserInfo};
 use crate::helper::enum_eq;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
@@ -155,7 +155,11 @@ impl Contract {
     }
 
     // TODO: add pagination
-    pub fn filter_tasks(&self, filter: FilterValues, pagination: Pagination) -> Vec<(String, Task)> {
+    pub fn filter_tasks(
+        &self,
+        filter: FilterValues,
+        pagination: Pagination,
+    ) -> ResponseWithPagination {
         let filtered_tasks: Vec<(String, Task)> = self
             .tasks
             .iter()
@@ -182,8 +186,14 @@ impl Contract {
             })
             .collect();
 
-        (pagination.from_index..std::cmp::min(pagination.limit, filtered_tasks.len()))
+        let pages_to_terurn = (pagination.from_index
+            ..std::cmp::min(pagination.limit, filtered_tasks.len()))
             .map(|index| filtered_tasks.get(index).unwrap().clone())
-            .collect()
+            .collect();
+
+        ResponseWithPagination {
+            filtered_tasks: pages_to_terurn,
+            total_size: filtered_tasks.len(),
+        }
     }
 }
