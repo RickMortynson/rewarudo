@@ -9,7 +9,10 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "prettier",
+    "plugin:prettier/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -18,12 +21,26 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort",
+    "import"
+  ],
   "rules": {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "import/no-unresolved": "off" // for some reason doesn't work with vite + react + ts setup
   },
   "settings": {
     "react": {

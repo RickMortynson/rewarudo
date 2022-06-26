@@ -15,15 +15,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": ["vite/client", "node"],
+    "baseUrl": ".",
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@near/*": ["./src/near/*"],
-      "@store/*": ["./src/store/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@assets/*": ["./assets/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src", "tailwind.config.js"],
+  // "include": ["src/**/*.ts", "src/**/*.tsx", "tailwind.config.js"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

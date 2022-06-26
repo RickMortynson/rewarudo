@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import * as path from 'path'
+import { defineConfig } from 'vite'
 
 const rootDir = path.resolve(__dirname)
 
@@ -16,26 +16,6 @@ export default defineConfig({
       {
         find: '@',
         replacement: path.resolve(rootDir, 'src/')
-      },
-      {
-        find: '@components',
-        replacement: path.resolve(rootDir, 'src/components')
-      },
-      {
-        find: '@near',
-        replacement: path.resolve(rootDir, 'src/near')
-      },
-      {
-        find: '@store',
-        replacement: path.resolve(rootDir, 'src/store')
-      },
-      {
-        find: '@assets',
-        replacement: path.resolve(rootDir, 'assets')
-      },
-      {
-        find: '@utils',
-        replacement: path.resolve(rootDir, 'src/utils')
       }
     ]
   }
