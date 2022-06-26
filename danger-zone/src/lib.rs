@@ -39,13 +39,21 @@ impl Contract {
     }
 
     pub fn reset(&mut self) {
-        self.tasks = UnorderedMap::<String, Task>::new(b"t");
-        self.users_profile = LookupMap::<AccountId, UserInfo>::new(b"u");
+        self.tasks = UnorderedMap::<String, Task>::new(b"u");
+        self.users_profile = LookupMap::<AccountId, UserInfo>::new(b"l");
     }
 
     // TODO: add limitations
     pub fn get_tasks(&self) -> Vec<(String, Task)> {
         return self.tasks.to_vec();
+    }
+
+    pub fn get_tasks_by_id(&self, id_vec_to_get: Vec<String>) -> Vec<(String, Task)> {
+        return self
+            .tasks
+            .iter()
+            .filter(|(task_id, _)| id_vec_to_get.contains(task_id))
+            .collect();
     }
 
     pub fn get_users_tasks_info(&self, user_id: AccountId) -> Option<UserInfo> {

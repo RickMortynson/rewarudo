@@ -69,3 +69,9 @@ export type FilterTasksReturn = {
   filtered_tasks: GetTasksReturn
   total_size: number
 }
+
+export type UserInfo = {
+  order_tasks_id: string[]
+  perform_tasks_id: string[]
+  is_busy: boolean
+}

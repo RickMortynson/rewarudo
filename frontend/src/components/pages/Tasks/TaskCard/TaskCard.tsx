@@ -15,9 +15,10 @@ import ExpandableCardGrid from './ExpandableCardGrid'
 type Props = {
   task_id: string
   task: Task
+  show_accent?: boolean
 }
 
-const TaskCard = ({ task, task_id }: Props) => {
+const TaskCard = ({ task, task_id, show_accent = true }: Props) => {
   const [showModal, setShowModal] = useState(false)
 
   const { id: user_id } = useAppSelector(store => store.UserSlice)
@@ -29,11 +30,13 @@ const TaskCard = ({ task, task_id }: Props) => {
     >
       <ExpandableCardGrid task={task} />
 
-      <div className='card-accent flex flex-col items-center justify-center border-brand/50 bg-brand/40 font-bold duration-[200] hover:bg-brand/60 md:text-xl'>
-        <p className='text-lg italic md:text-2xl '>
-          {NearApi.utils.format.formatNearAmount(task.reward)} Ⓝ
-        </p>
-      </div>
+      {show_accent && (
+        <div className='card-accent flex flex-col items-center justify-center border-brand/50 bg-brand/40 font-bold duration-[200] hover:bg-brand/60 md:text-xl'>
+          <p className='text-lg italic md:text-2xl '>
+            {NearApi.utils.format.formatNearAmount(task.reward)} Ⓝ
+          </p>
+        </div>
+      )}
 
       {showModal && (
         <Modal

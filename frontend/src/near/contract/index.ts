@@ -7,13 +7,14 @@ import {
   FilterTasksReturn,
   GetTasksReturn,
   TasksFilterValues,
-  TasksPagination
+  TasksPagination,
+  UserInfo
 } from './utils'
 
 const contractId = 'rewarudo.r_unicorn.testnet'
 
 const options = {
-  viewMethods: ['get_tasks', 'filter_tasks'],
+  viewMethods: ['get_tasks', 'filter_tasks', 'get_users_tasks_info', 'get_tasks_by_id'],
   changeMethods: ['create_task', 'take_task', 'approve_task_completion']
 }
 
@@ -27,6 +28,8 @@ type ContractFunctions = {
     filter: TasksFilterValues
     pagination: TasksPagination
   }) => FilterTasksReturn
+  get_users_tasks_info: (object: { user_id: string }) => UserInfo
+  get_tasks_by_id: (object: { id_vec_to_get: string[] }) => GetTasksReturn
 
   // change methods
   take_task: (task_id: { task_id: string }, gas: string, deposit: string) => void
@@ -51,20 +54,6 @@ export const filterTasks = async (
   filter_values: TasksFilterValues,
   from_index: number
 ): Promise<FilterTasksReturn> => {
-  console.log('request:', {
-    filter: {
-      ...filter_values,
-      max_deadline: filter_values.max_deadline ? new Date(filter_values.max_deadline).getTime() : 0, // use 0 if the value was undefined
-      reward_min: nearConnect.utils.format.parseNearAmount(String(filter_values.reward_min)),
-      reward_max: nearConnect.utils.format.parseNearAmount(String(filter_values.reward_max))
-    } as TasksFilterValues,
-
-    pagination: {
-      from_index,
-      limit: paginationLimit
-    } as TasksPagination
-  })
-
   return await contract.filter_tasks({
     filter: {
       ...filter_values,
@@ -78,6 +67,19 @@ export const filterTasks = async (
       limit: paginationLimit
     } as TasksPagination
   })
+}
+
+export const getUserTasksInfo = async (userId: string): Promise<UserInfo | undefined> => {
+  try {
+    if (userId.trim() === '') throw 'empty user ID'
+    return await contract.get_users_tasks_info({ user_id: userId })
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+export const getTasksById = async (id_vec_to_get: string[]): Promise<GetTasksReturn> => {
+  return await contract.get_tasks_by_id({ id_vec_to_get })
 }
 
 export const createTask = async (props: createTaskProps): Promise<string> => {
