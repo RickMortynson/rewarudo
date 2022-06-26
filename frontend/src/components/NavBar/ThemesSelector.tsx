@@ -1,7 +1,9 @@
-import { useMemo, useState, useEffect } from 'react'
-import { IconType } from 'react-icons'
-import { themesList, scheme } from './themes'
 import './NavBar.scss'
+
+import { useEffect, useMemo, useState } from 'react'
+import { IconType } from 'react-icons'
+
+import { scheme, themesList } from './themes'
 
 const ThemesSelector = () => {
   const [colorScheme, setColorScheme] = useState('auto-scheme')
@@ -26,6 +28,8 @@ const ThemesSelector = () => {
     }
 
     changeSystemColorScheme(theme)
+
+    // eslint-disable-next-line
   }, [])
 
   // useEffect changes color scheme based on `colorScheme` value

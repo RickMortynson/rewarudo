@@ -1,6 +1,6 @@
-import { useAppDispatch } from '@store/hooks'
-import { UserSlice } from '@store/reducers/UserSlice'
-import * as nearConnect from '@near/connect'
+import * as nearConnect from '@/near/connect'
+import { useAppDispatch } from '@/store/hooks'
+import { UserSlice } from '@/store/reducers/UserSlice'
 
 export const useUpdateUserValue = () => {
   const dispatch = useAppDispatch()

@@ -1,5 +1,5 @@
-import { MdOutlineAutoAwesome, MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md'
 import { IconType } from 'react-icons'
+import { MdOutlineAutoAwesome, MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md'
 
 export type scheme = {
   title: string

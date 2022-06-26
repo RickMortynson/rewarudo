@@ -1,13 +1,14 @@
+import './index.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 
-import { store } from '@store/store'
-import Layout from '@components/Layout'
-import './index.css'
+import Layout from '@/components/Layout'
+import { store } from '@/store/store'
 
 const persistor = persistStore(store)
 

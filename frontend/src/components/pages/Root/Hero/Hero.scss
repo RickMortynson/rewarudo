@@ -1,5 +1,5 @@
 .custom__hero--background {
-  background-image: url('@assets/hero-image.png');
+  background-image: url('@/assets/hero-image.png');
   background-size: cover;
   background-position: center;
 }
@@ -12,7 +12,6 @@
 .custom__button--fontsize--shadow {
   font-size: clamp(0.9rem, 0.6rem + 2vw, 1.3rem);
   font-weight: 600;
-  position: relative;
   isolation: isolate;
 
   &:hover::after {

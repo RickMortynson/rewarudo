@@ -1,19 +1,7 @@
-import React, { PropsWithChildren } from 'react'
-import { Field } from 'formik'
 import './styles.scss'
-{
-  /* <label>Description</label>
-<Field
-  className='field-action-area'
-  name='description'
-  placeholder='Description'
-  validate={validateDesc}
-/>
-{errors.description && touched.description && (
-  <span className='error-message'>{errors.description}</span>
-)}
-</div> */
-}
+
+import { Field } from 'formik'
+import { PropsWithChildren } from 'react'
 
 type Props = {
   label: string
@@ -23,6 +11,7 @@ type Props = {
 
   select_enum?: object
   select_name?: string
+  select_possibleEmpty?: boolean
 }
 
 /**
@@ -36,7 +25,7 @@ type Props = {
  * @prop {boolean} touched optional
  * @prop {object} select_enum enum type, if set - creates <option> elements with enum values and wraps them in the Formik's Field. Requires select_name to work properly
  * @prop {string} select_name name of the Formik's initialValues object key
- *
+ * @prop {boolean} select_possibleEmpty set true if select can have empty value
  */
 function FormFieldWrap({
   label,
@@ -45,18 +34,15 @@ function FormFieldWrap({
   error,
   touched,
   select_enum,
-  select_name
+  select_name,
+  select_possibleEmpty
 }: PropsWithChildren<Props>) {
   const selectOptions: JSX.Element[] | undefined = select_enum
     ? Object.keys(select_enum)
-        // transform enum from TaskCategories to string `category`
+        // transform enum to string ignoring numbers that represent enum value index
         .filter(key => isNaN(Number(key)))
         .map((category, index) => {
-          return (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          )
+          return <option key={index}>{category}</option>
         })
     : undefined
 
@@ -64,7 +50,8 @@ function FormFieldWrap({
     <div className={`field-grid-child ${className}`}>
       <label>{label}</label>
       {select_enum && (
-        <Field name={select_name} as='select'>
+        <Field name={select_name} default='' as='select'>
+          {select_possibleEmpty && <option key='empty_case'> </option>}
           {selectOptions}
         </Field>
       )}

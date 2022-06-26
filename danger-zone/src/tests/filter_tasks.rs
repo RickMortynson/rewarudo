@@ -26,7 +26,6 @@ fn normal_case() {
     let contract = default_setup();
     let tasks = contract.filter_tasks(
         FilterValues {
-            task_id: String::from(""),
             status: String::from(""),
             category: String::from(""),
             orderer: String::from(""),
@@ -49,7 +48,6 @@ fn normal_case_page_limit_0() {
     let contract = default_setup();
     let tasks = contract.filter_tasks(
         FilterValues {
-            task_id: String::from(""),
             status: String::from(""),
             category: String::from(""),
             orderer: String::from(""),
@@ -72,7 +70,6 @@ fn reward_min_invalid() {
     let contract = default_setup();
     let tasks = contract.filter_tasks(
         FilterValues {
-            task_id: String::from(""),
             status: String::from(""),
             category: String::from(""),
             orderer: String::from(""),
@@ -94,7 +91,6 @@ fn status_invalid() {
     let contract = default_setup();
     let tasks = contract.filter_tasks(
         FilterValues {
-            task_id: String::from(""),
             status: String::from("inprogress"),
             category: String::from(""),
             orderer: String::from(""),
@@ -118,7 +114,6 @@ fn wrong_category_critical_invalid() {
     let contract = default_setup();
     let tasks = contract.filter_tasks(
         FilterValues {
-            task_id: String::from(""),
             status: String::from(""),
             category: String::from("bunch_of_lemons"),
             orderer: String::from(""),
@@ -141,7 +136,6 @@ fn reward_max_valid_and_performer_critical_invalid() {
     let contract = default_setup();
     contract.filter_tasks(
         FilterValues {
-            task_id: String::from(""),
             status: String::from(""),
             category: String::from(""),
             orderer: String::from(""),
@@ -158,15 +152,14 @@ fn reward_max_valid_and_performer_critical_invalid() {
 }
 
 #[test]
-fn orderer_valid_and_task_id_invalid() {
+fn orderer_valid_and_performer_invalid() {
     let contract = default_setup();
     let tasks = contract.filter_tasks(
         FilterValues {
-            task_id: String::from("invalid_task_id"),
             status: String::from(""),
             category: String::from(""),
             orderer: String::from(ORDERER),
-            performer: String::from(""),
+            performer: String::from("not valid performer"),
             max_deadline: 0,
             reward_min: (ONE_NEAR * 0u128).into(),
             reward_max: (ONE_NEAR * 100u128).into(),

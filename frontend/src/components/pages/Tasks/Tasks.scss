@@ -1,0 +1,28 @@
+.tasks-element-wrapper {
+  background: white;
+  padding: 1rem;
+
+  border-width: 1px;
+  border-radius: 6px;
+  border-color: rgb(203 213 225 / 1);
+
+  @media (min-width: 768px) {
+    padding: 1.5rem 2rem;
+  }
+
+  & > h3 {
+    //  text-2xl font-semibold md:mb-4
+    margin-bottom: 0.5rem;
+    text-align: center;
+    width: 100%;
+
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+
+    @media (min-width: 768px) {
+      text-align: start;
+      margin-bottom: 1rem;
+    }
+  }
+}

@@ -1,17 +1,15 @@
-import { Formik, Field, Form } from 'formik'
+import { Field, Form, Formik } from 'formik'
 
-import { createTask } from '@near/contract'
-import { createTaskProps, TaskCategories } from '@near/contract/utils'
-import { useAppSelector } from '@store/hooks'
-import FormFieldWrap from '@components/helpers/FormFieldWrap'
+import FormFieldWrap from '@/components/helpers/FormFieldWrap'
+import { createTask } from '@/near/contract'
+import { createTaskProps, TaskCategories } from '@/near/contract/utils'
+import { useAppSelector } from '@/store/hooks'
 
 const CreateTask = ({ className: user_className }: { className: string }) => {
   const { balance: user_balance } = useAppSelector(state => state.UserSlice)
 
   const handleSubmit = (values: createTaskProps) => {
-    console.log('handle submit')
-    const createdTaskId = createTask(values)
-    console.log(createdTaskId)
+    createTask(values)
   }
 
   const validateTitle = (value: string): string => {
@@ -60,12 +58,7 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
         {({ errors, touched }) => (
           <Form className='grid gap-1'>
             <FormFieldWrap label='Title' error={errors.title} touched={touched.title}>
-              <Field
-                className='field-action-area'
-                name='title'
-                placeholder='Title'
-                validate={validateTitle}
-              />
+              <Field name='title' placeholder='Title' validate={validateTitle} />
             </FormFieldWrap>
 
             <FormFieldWrap
@@ -73,21 +66,11 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
               error={errors.description}
               touched={touched.description}
             >
-              <Field
-                className='field-action-area'
-                name='description'
-                placeholder='Description'
-                validate={validateDesc}
-              />
+              <Field name='description' placeholder='Description' validate={validateDesc} />
             </FormFieldWrap>
 
             <FormFieldWrap label='Deadline'>
-              <Field
-                className='field-action-area'
-                name='deadline'
-                placeholder='deadline'
-                type='date'
-              />
+              <Field name='deadline' placeholder='deadline' type='date' />
             </FormFieldWrap>
 
             <FormFieldWrap
@@ -98,7 +81,6 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
 
             <FormFieldWrap label='Deposit' error={errors.deposit} touched={touched.deposit}>
               <Field
-                className='field-action-area'
                 name='deposit'
                 placeholder='reward ✨'
                 type='number'

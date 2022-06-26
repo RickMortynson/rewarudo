@@ -1,14 +1,16 @@
-import { useState } from 'react'
-import * as NearApi from 'near-api-js'
-import { Field, Form, Formik } from 'formik'
-
-import Modal from '@components/Modal'
-import { Task } from '@near/contract/utils'
 import './TaskCard.scss'
+
+import { Field, Form, Formik } from 'formik'
+import * as NearApi from 'near-api-js'
+import { useState } from 'react'
+
+import Modal from '@/components/Modal'
+import { approveTaskCompletion, takeTask } from '@/near/contract'
+import { Task, TaskStatus } from '@/near/contract/utils'
+import { useAppSelector } from '@/store/hooks'
+
 import CardField from './CardField'
 import ExpandableCardGrid from './ExpandableCardGrid'
-import { takeTask, approveTaskCompletion } from '@near/contract'
-import { useAppSelector } from '@store/hooks'
 
 type Props = {
   task_id: string
@@ -20,9 +22,6 @@ const TaskCard = ({ task, task_id }: Props) => {
 
   const { id: user_id } = useAppSelector(store => store.UserSlice)
 
-  console.log('orderer:', task.orderer)
-  console.log('actual user:', user_id)
-
   return (
     <div
       onClick={() => setShowModal(!showModal)}
@@ -31,7 +30,9 @@ const TaskCard = ({ task, task_id }: Props) => {
       <ExpandableCardGrid task={task} />
 
       <div className='card-accent flex flex-col items-center justify-center border-brand/50 bg-brand/40 font-bold duration-[200] hover:bg-brand/60 md:text-xl'>
-        <p>Reward: {NearApi.utils.format.formatNearAmount(task.reward)} Ⓝ</p>
+        <p className='text-lg italic md:text-2xl '>
+          {NearApi.utils.format.formatNearAmount(task.reward)} Ⓝ
+        </p>
       </div>
 
       {showModal && (
@@ -44,7 +45,7 @@ const TaskCard = ({ task, task_id }: Props) => {
             <CardField title='Performer' className='italic'>
               {task.performer ? task.performer : '-'}{' '}
             </CardField>
-            {task.status === 'Done' && (
+            {task.status === TaskStatus.Done && (
               <CardField title='Result comment'>{task.result_comment}</CardField>
             )}
             <CardField title='Reward'>
@@ -52,7 +53,7 @@ const TaskCard = ({ task, task_id }: Props) => {
             </CardField>
           </ExpandableCardGrid>
 
-          {task.status === 'Created' && task.orderer !== user_id && (
+          {task.status === TaskStatus.Created && task.orderer !== user_id && (
             <button
               onClick={() => takeTask(task_id)}
               className='col-span-3 mt-6 w-full  rounded-md border-brand/40 bg-brand/30 px-8 py-[6px] shadow-md transition-all hover:bg-brand/50 hover:shadow'
@@ -61,7 +62,7 @@ const TaskCard = ({ task, task_id }: Props) => {
             </button>
           )}
 
-          {task.status === 'InProgress' && task.orderer === user_id && (
+          {task.status === TaskStatus.InProgress && task.orderer === user_id && (
             <Formik
               initialValues={{ comment: '' }}
               onSubmit={submittedValues => {

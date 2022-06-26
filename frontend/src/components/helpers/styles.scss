@@ -1,6 +1,15 @@
 .field-grid-child {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1;
+
+  & > label {
+    grid-column-start: 1;
+  }
+
+  & > input {
+    border-bottom: solid 1px rgb(0, 0, 0, 0.5);
+  }
 
   & > :where(input, select) {
     grid-column: span 2;

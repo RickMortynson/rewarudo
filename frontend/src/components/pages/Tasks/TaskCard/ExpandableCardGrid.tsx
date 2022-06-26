@@ -1,6 +1,8 @@
 import { PropsWithChildren } from 'react'
+
+import { Task } from '@/near/contract/utils'
+
 import CardField from './CardField'
-import { Task } from '@near/contract/utils'
 
 type Props = {
   task: Omit<Task, 'performer' | 'result_comment'>

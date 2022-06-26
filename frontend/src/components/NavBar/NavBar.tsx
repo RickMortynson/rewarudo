@@ -1,9 +1,11 @@
-import { VscGithub } from 'react-icons/vsc'
+import './NavBar.scss'
+
 import { HiMenu } from 'react-icons/hi'
+import { VscGithub } from 'react-icons/vsc'
 import { Link } from 'react-router-dom'
+
 import ThemesSelector from './ThemesSelector'
 import UserDropDown from './UserDropDown'
-import './NavBar.scss'
 
 const NavBar = () => {
   // TODO: store colorScheme in localStorage

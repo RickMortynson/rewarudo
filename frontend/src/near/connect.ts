@@ -1,5 +1,5 @@
-import * as nearAPI from 'near-api-js'
 import { Buffer } from 'buffer'
+import * as nearAPI from 'near-api-js'
 
 window.Buffer = Buffer
 

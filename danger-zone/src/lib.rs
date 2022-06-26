@@ -154,7 +154,11 @@ impl Contract {
         self.users_profile.insert(performer_id, &performer_profile);
     }
 
-    // TODO: add pagination
+    /// filter_tasks gets filter & pagination preferences
+    /// then filters whole self.tasks and after that - shrinks result array to the pagination limits
+    #[deprecated(
+        note = "Attention: horrible approach. Don't use this in production. Consider using a third-party service for filtering and pagination"
+    )]
     pub fn filter_tasks(
         &self,
         filter: FilterValues,
@@ -163,9 +167,8 @@ impl Contract {
         let filtered_tasks: Vec<(String, Task)> = self
             .tasks
             .iter()
-            .filter(|(task_id, task)| {
-                return (filter.task_id == "" || &filter.task_id == task_id)
-                    && (filter.orderer == "" || filter.orderer == task.orderer.as_str())
+            .filter(|(_, task)| {
+                return (filter.orderer == "" || filter.orderer == task.orderer.as_str())
                     && (filter.category == ""
                         || enum_eq(
                             &task.category,
@@ -186,13 +189,16 @@ impl Contract {
             })
             .collect();
 
-        let pages_to_terurn = (pagination.from_index
-            ..std::cmp::min(pagination.limit, filtered_tasks.len()))
+        let pages_to_return = (pagination.from_index
+            ..std::cmp::min(
+                pagination.from_index + pagination.limit,
+                filtered_tasks.len(),
+            ))
             .map(|index| filtered_tasks.get(index).unwrap().clone())
             .collect();
 
         ResponseWithPagination {
-            filtered_tasks: pages_to_terurn,
+            filtered_tasks: pages_to_return,
             total_size: filtered_tasks.len(),
         }
     }

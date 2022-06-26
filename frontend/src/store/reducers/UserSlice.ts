@@ -1,6 +1,8 @@
-import { UpdateStateAction } from './actions/userActions'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import * as nearConnect from '@near/connect'
+
+import * as nearConnect from '@/near/connect'
+
+import { UpdateStateAction } from './actions/userActions'
 
 type User = {
   id: string

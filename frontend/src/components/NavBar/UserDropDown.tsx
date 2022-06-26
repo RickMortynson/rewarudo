@@ -1,10 +1,11 @@
-import { UserSlice } from '@store/reducers/UserSlice'
-import { useAppSelector, useAppDispatch } from '@store/hooks'
-import { MdArrowDropDown } from 'react-icons/md'
-import * as nearConnection from '@near/connect'
-
 import './NavBar.scss'
+
+import { MdArrowDropDown } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+
+import * as nearConnection from '@/near/connect'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { UserSlice } from '@/store/reducers/UserSlice'
 
 const UserDropDown = () => {
   const user = useAppSelector(store => store.UserSlice)

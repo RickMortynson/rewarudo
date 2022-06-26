@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { setPaddingTopUsingNavHeight } from '@utils/mixins'
+
+import { setPaddingTopUsingNavHeight } from '@/utils/mixins'
 
 const Profile = () => {
   useEffect(() => {

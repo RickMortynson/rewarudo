@@ -32,7 +32,6 @@ pub struct UserInfo {
 #[derive(BorshDeserialize, BorshSerialize, Deserialize, Serialize, Debug)]
 #[serde(crate = "near_sdk::serde")]
 pub struct FilterValues {
-    pub task_id: String,
     pub status: String,
     pub category: String,
     pub orderer: String,
