@@ -152,17 +152,17 @@ fn reward_max_valid_and_performer_critical_invalid() {
 }
 
 #[test]
-fn orderer_valid_and_performer_invalid() {
+fn orderer_valid_and_reward_invalid() {
     let contract = default_setup();
     let tasks = contract.filter_tasks(
         FilterValues {
             status: String::from(""),
             category: String::from(""),
             orderer: String::from(ORDERER),
-            performer: String::from("not valid performer"),
+            performer: String::from(""),
             max_deadline: 0,
             reward_min: (ONE_NEAR * 0u128).into(),
-            reward_max: (ONE_NEAR * 100u128).into(),
+            reward_max: (ONE_NEAR * 0u128).into(),
         },
         Pagination {
             from_index: 0,
