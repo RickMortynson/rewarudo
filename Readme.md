@@ -1,12 +1,12 @@
 <h1 align="center">Rewarudo</h1>
-<h3 align="center">not-a-freelance solution for placing & taking paid tasks</h3>
+<h3 align="center">Solution for placement and acceptance of paid tasks</h3>
 <hr/>
 
 ## Core concepts
 
 - all users are equal - each account has the same privileges as any other
-- confidant platform - running using blockchain technologies, **Rewarudo** guarantees that all orderer' funds will be kept in safe until the approval of the task is completed
-- some other ad bullshit
+- confidant platform - running using blockchain technologies, **Rewarudo** guarantees that all orderer's funds will be kept in safe until the approval of the task is completed
+- users can create new tasks and take tasks. Users have a limit on performing one task at a time.
 
 ## Tech stack
 
