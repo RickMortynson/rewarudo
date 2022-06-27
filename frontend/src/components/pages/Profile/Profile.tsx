@@ -65,7 +65,7 @@ const Profile = () => {
           <span
             className={` ${
               isBusy ? 'bg-red-400' : 'bg-green-400'
-            } ml-1 aspect-square w-3 rounded-full mt-1`}
+            } ml-1 mt-1 aspect-square w-3 rounded-full`}
           />
         </div>
         <h3>
