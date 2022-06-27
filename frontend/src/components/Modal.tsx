@@ -7,9 +7,9 @@ type Props = {
   className?: string
 }
 
-// this implementation gives the developer a choice - to perform a conditional render using {option && <Modal />}
+// this implementation gives you a choice - to perform a conditional render using {option && <Modal />}
 // or to generate whole html inside this but hide it using <Modal show={false}>
-const Modal = ({ children, show = true, close, className }: PropsWithChildren & Props) => {
+const Modal = ({ children, close, className, show = true }: PropsWithChildren & Props) => {
   const modalElem = document.getElementById('modal-window') as Element
 
   return ReactDOM.createPortal(
