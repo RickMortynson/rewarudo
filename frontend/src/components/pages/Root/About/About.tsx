@@ -38,9 +38,9 @@ type TinderProps = {
 const TintedProfile = ({ description, image, title, link, link_alias }: TinderProps) => {
   return (
     <div className='my-10 flex w-44 flex-col rounded-lg border border-black/30 md:my-20'>
-      <img src={image} alt='avatar' />
+      <img className='rounded-t-lg' src={image} alt='avatar' />
 
-      <div className='flex flex-auto flex-col px-2'>
+      <div className='flex flex-auto flex-col bg-white/70 px-2'>
         <h2 className='border-b-[1px] border-black/20 py-2 text-center text-xl font-semibold '>
           {title}
         </h2>
