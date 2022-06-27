@@ -1,0 +1,12 @@
+h3 {
+  display: hidden;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+
+  @media (min-width: 768px) {
+    display: block;
+    text-align: start;
+  }
+}

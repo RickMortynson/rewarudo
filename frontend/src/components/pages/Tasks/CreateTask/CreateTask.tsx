@@ -40,64 +40,68 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
   }
 
   return (
-    <div className={`${user_className} shadow-sm drop-shadow-sm`}>
+    <div className={`${user_className} flex w-full flex-col shadow-sm drop-shadow-sm`}>
       <h3 className='col-span-2'>Create task</h3>
 
-      <Formik
-        initialValues={
-          {
-            title: '',
-            category_arg: TaskCategories[TaskCategories.Development],
-            deadline: new Date().toLocaleDateString('en-CA'),
-            description: '',
-            deposit: 0
-          } as createTaskProps
-        }
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched }) => (
-          <Form className='grid gap-1'>
-            <FormFieldWrap label='Title' error={errors.title} touched={touched.title}>
-              <Field name='title' placeholder='Title' validate={validateTitle} />
-            </FormFieldWrap>
+      <div className='h-full'>
+        <Formik
+          initialValues={
+            {
+              title: '',
+              category_arg: TaskCategories[TaskCategories.Development],
+              deadline: new Date().toLocaleDateString('en-CA'),
+              description: '',
+              deposit: 0
+            } as createTaskProps
+          }
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched }) => (
+            <Form className='flex h-full flex-col content-between'>
+              <div className='flex flex-auto flex-col gap-y-1'>
+                <FormFieldWrap label='Title' error={errors.title} touched={touched.title}>
+                  <Field name='title' placeholder='Title' validate={validateTitle} />
+                </FormFieldWrap>
 
-            <FormFieldWrap
-              label='Description'
-              error={errors.description}
-              touched={touched.description}
-            >
-              <Field name='description' placeholder='Description' validate={validateDesc} />
-            </FormFieldWrap>
+                <FormFieldWrap
+                  label='Description'
+                  error={errors.description}
+                  touched={touched.description}
+                >
+                  <Field name='description' placeholder='Description' validate={validateDesc} />
+                </FormFieldWrap>
 
-            <FormFieldWrap label='Deadline'>
-              <Field name='deadline' placeholder='deadline' type='date' />
-            </FormFieldWrap>
+                <FormFieldWrap label='Deadline'>
+                  <Field name='deadline' placeholder='deadline' type='date' />
+                </FormFieldWrap>
 
-            <FormFieldWrap
-              label='Category'
-              select_enum={TaskCategories}
-              select_name='category_arg'
-            />
+                <FormFieldWrap
+                  label='Category'
+                  select_enum={TaskCategories}
+                  select_name='category_arg'
+                />
 
-            <FormFieldWrap label='Deposit' error={errors.deposit} touched={touched.deposit}>
-              <Field
-                name='deposit'
-                placeholder='reward ✨'
-                type='number'
-                validate={validateReward}
-                min={0}
-              />
-            </FormFieldWrap>
+                <FormFieldWrap label='Deposit' error={errors.deposit} touched={touched.deposit}>
+                  <Field
+                    name='deposit'
+                    placeholder='reward ✨'
+                    type='number'
+                    validate={validateReward}
+                    min={0}
+                  />
+                </FormFieldWrap>
+              </div>
 
-            <button
-              className='mt-3 w-full rounded-md border border-brand/40 bg-brand/30 py-[6px] font-semibold shadow-md transition-colors hover:bg-brand/40'
-              type='submit'
-            >
-              Submit task
-            </button>
-          </Form>
-        )}
-      </Formik>
+              <button
+                className='mt-3 w-full rounded-md border border-brand/40 bg-brand/30 py-[6px] font-semibold shadow-md transition-colors hover:bg-brand/40'
+                type='submit'
+              >
+                Submit task
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   )
 }

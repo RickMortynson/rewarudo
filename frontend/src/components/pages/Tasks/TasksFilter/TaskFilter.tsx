@@ -25,26 +25,21 @@ const TaskFilter = ({ className, filterValues, updateFilterValues }: Props) => {
             select_name='status'
             select_possibleEmpty
           />
-
           <FormFieldWrap
             label='Category'
             select_enum={TaskCategories}
             select_name='category'
             select_possibleEmpty
           />
-
           <FormFieldWrap label='Orderer'>
             <Field name='orderer' placeholder='Orderer' />
           </FormFieldWrap>
-
           <FormFieldWrap label='Performer'>
             <Field name='performer' placeholder='Performer' />
           </FormFieldWrap>
-
           <FormFieldWrap label='Max deadline'>
             <Field name='max_deadline' type='date' />
           </FormFieldWrap>
-
           <FormFieldWrap label='Reward range'>
             <div className='col-span-2 flex items-center justify-between [&>*]:w-[45%] '>
               <Field
@@ -62,7 +57,12 @@ const TaskFilter = ({ className, filterValues, updateFilterValues }: Props) => {
               />
             </div>
           </FormFieldWrap>
-          <button type='submit' className='hidden' />
+          <button
+            className='mt-3 w-full rounded-md border border-brand/40 bg-brand/30 py-[6px] font-semibold shadow-md transition-colors hover:bg-brand/40'
+            type='submit'
+          >
+            Apply filter
+          </button>
         </Form>
       </Formik>
     </div>

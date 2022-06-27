@@ -39,9 +39,10 @@ const Tasks = () => {
       .catch(() => {
         setTasks([])
         setTotalPages(0)
+
         // actually errors can be expected here, such as panic when min_reward < 0 (u128 error), etc
         // but this behavior is ok 👹👹👹
-        console.log('just hope this was an expected error :D')
+        console.warn('just hope this was an expected error 👹')
       })
 
     const fetchTasks = setInterval(() => {
@@ -54,7 +55,7 @@ const Tasks = () => {
         .catch(() => {
           setTasks([])
           setTotalPages(0)
-          console.log('just hope this was an expected error :D')
+          console.warn('just hope this was an expected error 👹')
         })
     }, 10000)
 

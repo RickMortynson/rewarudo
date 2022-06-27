@@ -37,10 +37,10 @@ const CardGrid = ({ task, children }: Props & PropsWithChildren) => {
   return (
     <>
       <CardField title='Title' className='row-span-1'>
-        {/* both task.title and h4 are in the same span rn */}
+        {/* both task.title and h4 are in the same span right now */}
 
         {task.title}
-        <h4 className='ml-1 flex items-center rounded-full border border-brand/40 bg-brand/20 px-1 text-xs font-medium'>
+        <h4 className='mx-1 flex items-center rounded-full border border-brand/40 bg-white/40 px-1 text-xs font-medium'>
           {task.category}
         </h4>
       </CardField>
