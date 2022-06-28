@@ -52,7 +52,7 @@ fn get_empty_contract() -> Contract {
     }
 }
 
-/// do not forget to make `get_context` mutable () ContextSetup{is_view: false}
+/// do not forget to make `get_context` mutable: `ContextSetup{is_view: false}`
 fn get_non_empty_contract(setup: ContractSetup) -> Contract {
     let mut contract = get_empty_contract();
 
