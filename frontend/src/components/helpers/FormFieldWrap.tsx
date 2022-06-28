@@ -38,12 +38,9 @@ function FormFieldWrap({
   select_possibleEmpty
 }: PropsWithChildren<Props>) {
   const selectOptions: JSX.Element[] | undefined = select_enum
-    ? Object.keys(select_enum)
-        // transform enum to string ignoring numbers that represent enum value index
-        .filter(key => isNaN(Number(key)))
-        .map((category, index) => {
-          return <option key={index}>{category}</option>
-        })
+    ? Object.keys(select_enum).map((category, index) => {
+        return <option key={index}>{category}</option>
+      })
     : undefined
 
   return (

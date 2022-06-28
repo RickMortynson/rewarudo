@@ -1,16 +1,16 @@
 export enum TaskCategories {
-  Development,
-  Design,
-  Writing,
-  Researching,
-  Typing,
-  Mentoring
+  Development = 'Development',
+  Design = 'Design',
+  Writing = 'Writing',
+  Researching = 'Researching',
+  Typing = 'Typing',
+  Mentoring = 'Mentoring'
 }
 
 export enum TaskStatus {
-  Created,
-  InProgress,
-  Done
+  Created = 'Created',
+  InProgress = 'InProgress',
+  Done = 'Done'
 }
 
 export type createTaskProps = {
