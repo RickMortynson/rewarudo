@@ -38,11 +38,6 @@ impl Contract {
         }
     }
 
-    pub fn reset(&mut self) {
-        self.tasks = UnorderedMap::<String, Task>::new(b"u");
-        self.users_profile = LookupMap::<AccountId, UserInfo>::new(b"l");
-    }
-
     // TODO: add limitations
     pub fn get_tasks(&self) -> Vec<(String, Task)> {
         return self.tasks.to_vec();
