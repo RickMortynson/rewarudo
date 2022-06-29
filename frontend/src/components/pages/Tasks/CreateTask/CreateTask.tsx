@@ -35,8 +35,13 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
 
   const validateReward = (transaction_amount: number): string => {
     // format to shorter version to not run out of javascript's float limit and to not get a NaN
-    const balance = Number(formatBalanceToHuman(user_balance, 10))
-    console.log('numbered balance:', balance)
+    let formattedBalance = formatBalanceToHuman(user_balance, 2000)
+
+    // near formatter separates thousands with commas, which normally
+    // would lead to NaN error when trying to parse such number.
+    // Therefore replace commas with empty string
+    formattedBalance = formattedBalance.replaceAll(',', '')
+    const balance = Number(formattedBalance)
 
     if (balance > transaction_amount) return ''
     else return 'Not enough near for this action'
