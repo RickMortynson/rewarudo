@@ -30,8 +30,6 @@ pub struct Contract {
 impl Contract {
     #[init]
     pub fn new() -> Self {
-        assert!(!env::state_exists(), "Already initialized");
-
         Contract {
             tasks: UnorderedMap::<String, Task>::new(b"t"),
             users_profile: LookupMap::<AccountId, UserInfo>::new(b"u"),
@@ -62,7 +60,6 @@ impl Contract {
         category_arg: &String,
         deadline: u64,
     ) -> String {
-        // TODO: store funds somewhere
         // get reward, orderer from metadata, category as enum from argument
         let reward: U128 = U128::from(env::attached_deposit());
         let this_user = env::signer_account_id();
@@ -75,7 +72,7 @@ impl Contract {
             description,
 
             reward,
-            category: TaskCategories::from_string(category_arg),
+            category: TaskCategories::from(category_arg),
             deadline,
             status: TaskStatus::Created,
             result_comment: None,
@@ -171,10 +168,10 @@ impl Contract {
                     && (filter.category == ""
                         || enum_eq(
                             &task.category,
-                            &TaskCategories::from_string(&filter.category),
+                            &TaskCategories::from(&filter.category),
                         ))
                     && (filter.status == ""
-                        || enum_eq(&task.status, &TaskStatus::from_string(&filter.status)))
+                        || enum_eq(&task.status, &TaskStatus::from(&filter.status)))
                     && (filter.performer == ""
                         || filter.performer
                             == task

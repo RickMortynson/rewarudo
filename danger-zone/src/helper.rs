@@ -29,7 +29,6 @@ impl Contract {
                 self.insert_task_to_user_info(user_key, task_relation, task_id);
             }
         };
-        return ();
     }
 
     pub(super) fn init_empty_user_info(&mut self, user_key: &AccountId) {
