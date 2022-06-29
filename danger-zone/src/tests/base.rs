@@ -58,7 +58,7 @@ fn get_non_empty_contract(setup: ContractSetup) -> Contract {
 
     let orderer = setup
         .rewrite_default_orderer
-        .unwrap_or(AccountId::try_from(ORDERER.to_string()).unwrap());
+        .unwrap_or(ORDERER.parse().unwrap());
 
     let inserted_task_id = format!("{}{}", orderer.as_str(), SAMPLE_TASK_PREFIX);
 

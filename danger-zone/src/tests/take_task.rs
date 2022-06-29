@@ -9,7 +9,6 @@ fn call_take_task_and_debug(mut contract: Contract, inserted_task_id: &str) -> C
 
     contract.take_task(&inserted_task_id.to_owned());
 
-    println!("tasks after: {:?}", contract.get_tasks());
     println!(
         "users_profile after: {:?}",
         contract.get_users_tasks_info(env::signer_account_id())
@@ -35,7 +34,7 @@ fn normal_case() {
 
     let inserted_task_id = format!("{}{}", ORDERER, SAMPLE_TASK_PREFIX);
 
-    contract = call_take_task_and_debug(contract, &*inserted_task_id);
+    contract = call_take_task_and_debug(contract, inserted_task_id.as_str());
 
     let task = &contract.get_tasks()[0];
 

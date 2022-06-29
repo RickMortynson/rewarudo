@@ -38,7 +38,6 @@ impl Contract {
         }
     }
 
-    // TODO: add limitations
     pub fn get_tasks(&self) -> Vec<(String, Task)> {
         return self.tasks.to_vec();
     }
@@ -95,19 +94,17 @@ impl Contract {
 
     pub fn take_task(&mut self, task_id: &String) {
         let this_user = env::signer_account_id();
-        // TODO: case if task is already taken?
         match self.users_profile.get(&this_user) {
             Some(user) => {
-                assert!(user.is_busy, "the user already have an active task");
-
+                if user.is_busy {
+                    env::panic_str("the user already have an active task");
+                }
                 // take task, panic if it does not exists
                 // also panic if the field 'orderer' of the task equals to id of the method caller
-                env::log_str(&task_id);
                 let mut task = self.tasks.get(&task_id).unwrap();
-                assert_eq!(
-                    task.orderer, this_user,
-                    "the orderer can not take their own orders"
-                );
+                if task.orderer == this_user {
+                    env::panic_str("the orderer can not perform their own orders");
+                }
 
                 task.status = TaskStatus::InProgress;
                 task.performer = Some(this_user.clone());
