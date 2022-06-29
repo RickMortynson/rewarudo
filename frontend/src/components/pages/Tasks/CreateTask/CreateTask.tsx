@@ -1,6 +1,7 @@
 import { Field, Form, Formik } from 'formik'
 
 import FormFieldWrap from '@/components/helpers/FormFieldWrap'
+import { formatBalanceToHuman } from '@/near/connect'
 import { createTask } from '@/near/contract'
 import { createTaskProps, TaskCategories } from '@/near/contract/utils'
 import { useAppSelector } from '@/store/hooks'
@@ -33,7 +34,9 @@ const CreateTask = ({ className: user_className }: { className: string }) => {
   }
 
   const validateReward = (transaction_amount: number): string => {
-    const balance = Number(user_balance)
+    // format to shorter version to not run out of javascript's float limit and to not get a NaN
+    const balance = Number(formatBalanceToHuman(user_balance, 10))
+    console.log('numbered balance:', balance)
 
     if (balance > transaction_amount) return ''
     else return 'Not enough near for this action'

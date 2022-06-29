@@ -18,10 +18,13 @@ export const connectWallet = async (): Promise<void> => {
 }
 
 export const getWalletBalance = async (): Promise<string> => {
-  const balance = (await wallet.account().state()).amount
-  return nearAPI.utils.format.formatNearAmount(balance)
+  return (await wallet.account().state()).amount
 }
 
-export const formatBalanceToHuman = (balance: string): string => {
-  return Number(balance).toFixed(3)
+export const formatBalanceToHuman = (balance: string, numbersAfterPoint = 3): string => {
+  const formattedBalance = nearAPI.utils.format.formatNearAmount(balance)
+
+  const pointIndex = formattedBalance.indexOf('.')
+
+  return formattedBalance.substring(0, pointIndex + numbersAfterPoint + 1)
 }

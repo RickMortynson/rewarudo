@@ -3,6 +3,7 @@ import './Profile.scss'
 import { ChangeEvent, useEffect, useState } from 'react'
 
 import TaskCard from '@/components/pages/Tasks/TaskCard'
+import { formatBalanceToHuman } from '@/near/connect'
 import { getTasksById, getUserTasksInfo } from '@/near/contract'
 import { GetTasksReturn } from '@/near/contract/utils'
 import { useAppSelector } from '@/store/hooks'
@@ -69,7 +70,7 @@ const Profile = () => {
           />
         </div>
         <h3>
-          Balance: <span className='text-base'>{balance}</span>
+          Balance: <span className='text-base'>{formatBalanceToHuman(balance, 10)}</span>
         </h3>
       </div>
       <div className='grid grid-rows-[auto,1fr] gap-x-8 rounded-md md:grid-cols-2'>

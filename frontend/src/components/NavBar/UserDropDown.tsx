@@ -9,6 +9,7 @@ import { UserSlice } from '@/store/reducers/UserSlice'
 
 const UserDropDown = () => {
   const user = useAppSelector(store => store.UserSlice)
+  console.log(user)
 
   const dispatch = useAppDispatch()
   const { Logout } = UserSlice.actions
