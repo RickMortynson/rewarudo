@@ -2,10 +2,10 @@
 <h3 align="center">Solution for placement and acceptance of paid tasks</h3>
 Rewarudo is a solution for placing & acceptance of orders using blockchain technology. 
 <br/><br/>
-As backend I used near-sdk for rust to develop smar-contract. 
+As backend I used near-sdk for rust to develop smart-contract. 
 As for frontend, I used react and near-api-js to communicate with the smart-contract. 
 <br/><br/>
-The user can login into the applicatin with their near wallet and use funds from that wallet to place orders or, alternatively, the user can accept & fulfill another user's orders to earn near
+The user can login into the application with their near wallet and use funds from that wallet to place orders or, alternatively, the user can accept & fulfill another user's orders to earn near
 <hr/>
 
 ## Core concepts
